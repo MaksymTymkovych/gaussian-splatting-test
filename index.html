@@ -1,27 +1,123 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gaussian Splatting Viewer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Virtual Laboratories: Gaussian Splatting Visualization</title>
   <style>
     body {
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background-color: #f4f6f8;
+      color: #222;
       margin: 0;
-      background-color: #000;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(90deg, #eaf4f6, #d5f0ee);
+      text-align: center;
+      padding: 2rem 1rem;
+      border-bottom: 2px solid #33b5b5;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      color: #007c7a;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      color: #333;
+      margin-top: 0.5rem;
+    }
+
+    #authors {
+      background: #ffffff;
+      padding: 1.5rem;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .authors-list span {
+      display: block;
+      margin: 0.3rem 0;
+    }
+
+    #affiliations a,
+    .authors-list a {
+        color: #008c88;       
+        text-decoration: none; 
+        transition: 0.3s;
+    }
+
+    #affiliations a:hover,
+    .authors-list a:hover {
+        text-decoration: underline; 
+        color: #006e6c;             
+    }
+
+    #affiliations {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #444;
+    }
+
+    section {
+      padding: 2rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h2 {
+      color: #007c7a;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .lab {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 3rem;
+      overflow: hidden;
+      border: 1px solid #d4e9e8;
+    }
+
+    .lab-header {
+      padding: 1rem 1.5rem;
+      background-color: #eaf9f9;
+      border-bottom: 1px solid #c7e7e6;
+    }
+
+    .lab-header h3 {
+      margin: 0;
+      color: #006e6c;
+    }
+
+    .lab-content {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 100vh;
+      padding: 1.5rem;
+    }
+
+    .lab-description {
+      max-width: 800px;
+      margin-bottom: 1rem;
+      color: #333;
+      text-align: center;
     }
 
     .iframe-container {
       position: relative;
-      width: 80%;
-      max-width: 1000px;
-      padding-top: 56.25%; /* співвідношення сторін 16:9 */
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      width: 90%;
+      max-width: 900px;
+      padding-top: 56.25%;
       border-radius: 12px;
       overflow: hidden;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
     }
 
     .iframe-container iframe {
@@ -32,15 +128,149 @@
       height: 100%;
       border: none;
     }
+
+    footer {
+      background-color: #eaf4f6;
+      border-top: 2px solid #33b5b5;
+      padding: 2rem 1rem;
+      text-align: center;
+      color: #333;
+      font-size: 0.9rem;
+    }
+
+    .logos {
+      margin-top: 1rem;
+    }
+
+    .logos img {
+      height: 50px;
+      margin: 0.5rem 1rem;
+      vertical-align: middle;
+      filter: brightness(0.9);
+      transition: 0.3s;
+    }
+
+    .logos img:hover {
+      filter: brightness(1);
+      transform: scale(1.05);
+    }
   </style>
 </head>
+
 <body>
-  <div class="iframe-container">
-    <iframe
-      id="viewer"
-      allow="fullscreen; xr-spatial-tracking"
-      src="https://superspl.at/s?id=1cbf9cd5"
-    ></iframe>
-  </div>
+  <header>
+    <h1>Virtual Cryomicroscopy Laboratory: Gaussian Splatting Visualization</h1>
+    <p>Photorealistic 3D visualizations of biomedical laboratory equipment</p>
+  </header>
+
+  <section id="authors">
+    <div class="authors-list">
+      <span>Anastasiia Lytvyn<sup>1</sup> — <a href="mailto:anastasiia.lytvyn@nure.ua">anastasiia.lytvyn@nure.ua</a></span>
+      <span>Kateryna Posokhova<sup>1</sup> — <a href="mailto:kateryna.posokhova@nure.ua">kateryna.posokhova@nure.ua</a></span>
+      <span>Maksym Tymkovych<sup>1</sup> — <a href="mailto:maksym.tymkovych@nure.ua">maksym.tymkovych@nure.ua</a></span>
+      <span>Oleg Avrunin<sup>1</sup> — <a href="mailto:oleh.avrunin@nure.ua">oleh.avrunin@nure.ua</a></span>
+      <span>Oleksandra Hubenia<sup>2</sup> — <a href="mailto:hubenia@imp.uni-hannover.de">hubenia@imp.uni-hannover.de</a></span>
+      <span>Oleksandr Gryshkov<sup>2</sup> — <a href="mailto:o.gryshkov@nds.de">o.gryshkov@nds.de</a></span>
+      <span>Birgit Glasmacher<sup>2</sup> — <a href="mailto:glasmacher@imp.uni-hannover.de">glasmacher@imp.uni-hannover.de</a></span>
+    </div>
+
+    <div id="affiliations">
+	<p><sup>1</sup> Department of Biomedical Engineering, <a href="https://www.bme.nure.ua/en/">Kharkiv National University of Radio Electronics</a></p>
+	<p><sup>2</sup> Institute for Multiphase Processes, <a href="https://www.imp.uni-hannover.de/en/">Leibniz University Hannover</a></p>
+    </div>
+  </section>
+
+  <section id="labs">
+    <h2>Gaussian Splatting Visualizations</h2>
+
+    <div class="lab">
+      <div class="lab-header">
+        <h3>Laboratory of Cryomicroscopy</h3>
+      </div>
+      <div class="lab-content">
+        <p class="lab-description">
+          This visualization presents the cryomicroscopy laboratory reconstructed using Gaussian Splatting,
+          highlighting the spatial arrangement of the cooling and imaging units. It enables immersive 3D
+          navigation within the environment.
+        </p>
+        <div class="iframe-container">
+          <iframe
+            allow="fullscreen; xr-spatial-tracking"
+            src="https://superspl.at/s?id=1cbf9cd5">
+          </iframe>
+        </div>
+      </div>
+    </div>
+
+    <div class="lab">
+      <div class="lab-header">
+        <h3>Laboratory of Fluorescence Microscopy</h3>
+      </div>
+      <div class="lab-content">
+        <p class="lab-description">
+          This 3D Gaussian Splatting visualization captures the fluorescence microscopy lab with realistic
+          textures and geometry, allowing a virtual tour of the optical systems and experimental setup.
+        </p>
+        <div class="iframe-container">
+          <iframe
+            allow="fullscreen; xr-spatial-tracking"
+            src="https://superspl.at/s?id=9bc7ad23">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section id="citations">
+  <h2>Citations</h2>
+  <ul>
+    <li>[1] Posokhova, K; Lytvyn, A; Tymkovych, M; Hubenia, O; Avrunin, O; Glasmacher, B. (2024): Virtual Cryolaboratory: Visual Guidance Using Deep Neural Network Based on Detectron2 Framework,  60th meeting Society for Low Temperature Biology Manchester</li>
+    <li>[2] A. Lytvyn, K. Posokhova, M. Tymkovych, O. Avrunin, O. Hubenia and B. Glasmacher, "Object Detection for Virtual Assistant in Cryolaboratory Based on Detectron2 Framework," 2024 IEEE 17th International Conference on Advanced Trends in Radioelectronics, Telecommunications and Computer Engineering (TCSET), Lviv, Ukraine, 2024, pp. 534-539, doi: 10.1109/TCSET64720.2024.10755685.k</li>
+  </ul>
+</section>
+
+<style>
+  #citations {
+    background: #ffffff;
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 3rem auto 2rem auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: 1px solid #d4e9e8;
+  }
+
+  #citations h2 {
+    color: #007c7a;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  #citations ul {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+    color: #333;
+  }
+
+  #citations li {
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+  }
+</style>
+
+
+  <footer>
+    <p>
+      Supported by the DAAD and BMBF within the Eastern Partnership initiative.<br>
+      Collaboration between <strong>Leibniz University Hannover</strong> and
+      <strong>Kharkiv National University of Radio Electronics</strong>.
+    </p>
+    <div class="logos">
+      <a href="https://www.daad.de/en/"><img src="images/logos/daad-logo.png" alt="DAAD"></a>
+      <a href="https://www.bmbf.de/"><img src="images/logos/bmbf-logo.png" alt="BMBF"></a>
+      <a href="https://www.uni-hannover.de/en/"><img src="images/logos/leibniz-logo.png" alt="Leibniz University Hannover"></a>
+      <a href="https://nure.ua/en/"><img src="images/logos/nure-logo.png" alt="Kharkiv National University of Radio Electronics"></a>
+    </div>
+  </footer>
 </body>
 </html>
